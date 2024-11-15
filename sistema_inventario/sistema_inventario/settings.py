@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-ahii+gtho)+6q9a*$@9l#wn!d_jd(q)yy_!r9kr8tx51a5byqz
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['tu-app.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['sistema03.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
