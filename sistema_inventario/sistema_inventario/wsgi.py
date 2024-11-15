@@ -8,6 +8,9 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 """
 
 import os
+import sys
+
+sys.path.append(r'C:\Users\juanf\OneDrive\Escritorio\Software de inventario\sistema_inventario\sistema_inventario')
 
 from django.core.wsgi import get_wsgi_application
 

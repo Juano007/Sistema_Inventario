@@ -2,6 +2,7 @@ from pathlib import Path
 from datetime import timedelta
 import os
 import dj_database_url
+from settings import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,7 +10,7 @@ SECRET_KEY = 'django-insecure-ahii+gtho)+6q9a*$@9l#wn!d_jd(q)yy_!r9kr8tx51a5byqz
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['sistema03.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -156,3 +157,6 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'inventario.User'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
