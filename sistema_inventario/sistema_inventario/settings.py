@@ -57,7 +57,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sistema_inventario.wsgi.application'
 
 if DEBUG:
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -68,9 +67,7 @@ if DEBUG:
             'PORT': '3306',
         }
     }
-
 else:
-    # Configuración para producción (Heroku PostgreSQL)
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL'),
