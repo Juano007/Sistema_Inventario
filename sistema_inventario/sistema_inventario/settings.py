@@ -2,15 +2,19 @@ from pathlib import Path
 from datetime import timedelta
 import os
 import dj_database_url
-from settings import *
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-ahii+gtho)+6q9a*$@9l#wn!d_jd(q)yy_!r9kr8tx51a5byqz'
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY', 'iu8-qKqH2Oezvy980K5xLegvufLEYKpY0MXsTgoamZ6tCmSRYsYZtF1q6KGxpexEXTo')
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
+
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,6 +31,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Añadido para servir archivos estáticos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -34,7 +39,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'sistema_inventario.urls'
@@ -57,25 +61,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema_inventario.wsgi.application'
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'sistema_inventario',
-            'USER': 'root',
-            'PASSWORD': 'Ju315907*',
-            'HOST': 'localhost',
-            'PORT': '3306',
-        }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            ssl_require=True
-        )
-    }
+# Database
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
+
+# Password validation
+# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -92,6 +90,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/5.1/topics/i18n/
+
 LANGUAGE_CODE = 'es-co'
 
 TIME_ZONE = 'America/Bogota'
@@ -100,12 +101,18 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -119,10 +126,11 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://tu-frontend-app.herokuapp.com',  # Añade aquí la URL de tu frontend en producción
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  # Esto no es recomendado para producción
+CORS_ALLOW_ALL_ORIGINS = False  # Cambiado a False por seguridad
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
